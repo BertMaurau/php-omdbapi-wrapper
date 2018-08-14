@@ -44,7 +44,7 @@ stdClass Object
 
 ### Functions
 
-There are currently only 4 functions available
+The following functions are available:
 
 General
  - Get by IMDB ID
