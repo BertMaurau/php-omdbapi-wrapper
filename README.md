@@ -24,7 +24,7 @@ Init a new static API object
 ```php
 use BertMaurau\OMDB\Core\API as API;
 
-$api = new BertMaurau\OMDB\Core\API("api-key-here");
+$api = new API("api-key-here");
 ```
 
 ### Example
