@@ -13,6 +13,10 @@ class Genre
     // string
     private $genre;
 
+    /**
+     * Set the genre on construct
+     * @param string $genre
+     */
     public function __construct($genre)
     {
         $this -> setGenre($genre);

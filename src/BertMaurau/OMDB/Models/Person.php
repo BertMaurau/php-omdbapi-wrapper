@@ -12,18 +12,28 @@ class Person
 
     // string
     private $name;
+    // string
     private $extra;
 
+    /**
+     * Set the name on construct and split any extra information
+     * @param string $name
+     */
     public function __construct($name)
     {
         // check for extra info between brackets
         preg_match('#\((.*?)\)#', $name, $extra);
 
+        // check if there are any parts between brackets
         if (count($extra) > 0) {
             // remove that part from the name
             $name = trim(str_replace($extra[0], "", $name));
+
+            // set that info as extra
             $this -> setExtra($extra[1]);
         }
+
+        // set the name
         $this -> setName($name);
     }
 
@@ -36,6 +46,10 @@ class Person
         return $this -> name;
     }
 
+    /**
+     * Get the extra info
+     * @return string
+     */
     public function getExtra()
     {
         return $this -> extra;

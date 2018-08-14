@@ -39,6 +39,13 @@ class Serie extends Title
         return (object) ['response' => true, 'type' => 'season', 'data' => $data];
     }
 
+    /**
+     * Get a specific episode for given season
+     * @param integer $episode
+     * @param integer $season
+     * @return response
+     * @throws \Exception
+     */
     public function getEpisodeForSeason($episode, $season)
     {
         try {
@@ -57,11 +64,20 @@ class Serie extends Title
         return (object) ['response' => true, 'type' => 'episode', 'data' => $data];
     }
 
+    /**
+     * Get the total seasons count
+     * @return integer
+     */
     public function getTotalSeasons()
     {
         return $this -> totalSeasons;
     }
 
+    /**
+     * Set the total seasons count
+     * @param integer $totalSeasons
+     * @return $this
+     */
     public function setTotalSeasons($totalSeasons)
     {
         $this -> totalSeasons = (int) $totalSeasons;

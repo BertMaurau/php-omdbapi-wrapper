@@ -19,26 +19,48 @@ class Movie extends Title
     // string
     private $website;
 
+    /**
+     * Get the DVD release date
+     * @return string
+     */
     public function getDvd()
     {
         return $this -> dvd;
     }
 
+    /**
+     * Get the box office
+     * @return double
+     */
     public function getBoxOffice()
     {
         return $this -> boxOffice;
     }
 
+    /**
+     * Get the production name
+     * @return string
+     */
     public function getProduction()
     {
         return $this -> production;
     }
 
+    /**
+     * Get the website
+     * @return string
+     */
     public function getWebsite()
     {
         return $this -> website;
     }
 
+    /**
+     * Set the DVD release date
+     * @param string $dvd
+     * @return $this
+     * @throws \Exception
+     */
     public function setDvd($dvd)
     {
         // convert to standard format
@@ -52,6 +74,11 @@ class Movie extends Title
         return $this;
     }
 
+    /**
+     * Set the box office value
+     * @param string $boxOffice
+     * @return $this
+     */
     public function setBoxOffice($boxOffice)
     {
         // remove the dollar part
@@ -61,12 +88,22 @@ class Movie extends Title
         return $this;
     }
 
+    /**
+     * Set the production name
+     * @param string $production
+     * @return $this
+     */
     public function setProduction($production)
     {
         $this -> production = (string) $production;
         return $this;
     }
 
+    /**
+     * Set the website
+     * @param string $website
+     * @return $this
+     */
     public function setWebsite($website)
     {
         $this -> website = (string) $website;

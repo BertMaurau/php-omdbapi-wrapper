@@ -15,6 +15,11 @@ class Rating
     // string
     private $rating;
 
+    /**
+     * Set the source and value on construct
+     * @param string $source
+     * @param string $rating
+     */
     public function __construct($source, $rating)
     {
         $this -> setSource($source);

@@ -53,6 +53,11 @@ class Title
     // string
     private $type;
 
+    /**
+     * Call all setters for given properties on construct
+     * @param array $properties
+     * @return $this
+     */
     public function __construct($properties = array())
     {
         if (isset($properties)) {
@@ -181,7 +186,15 @@ class Title
         return (object) ['response' => true, 'type' => $response -> Type, 'data' => $data];
     }
 
-    // search
+    /**
+     * Search for given title
+     * @param string $query
+     * @param integer $year
+     * @param string $type
+     * @param integer $page
+     * @return response
+     * @throws \Exception
+     */
     public function search($query, $year = null, $type = null, $page = 1)
     {
 
@@ -242,124 +255,224 @@ class Title
         return (object) ['response' => true, 'type' => 'search', 'pagination' => ['current' => $pageResults, 'total' => $totalResult, 'hasMoreResults' => $hasMoreResults], 'data' => $data];
     }
 
+    /**
+     * Get the title
+     * @return string
+     */
     public function getTitle()
     {
         return $this -> title;
     }
 
+    /**
+     * Get the year
+     * @return integer
+     */
     public function getYear()
     {
         return $this -> year;
     }
 
+    /**
+     * Get rated score
+     * @return string
+     */
     public function getRated()
     {
         return $this -> rated;
     }
 
+    /**
+     * Get the release date
+     * @return date
+     */
     public function getReleased()
     {
         return $this -> released;
     }
 
+    /**
+     * Get the runtime
+     * @return integer
+     */
     public function getRuntime()
     {
         return $this -> runtime;
     }
 
+    /**
+     * Get the genres
+     * @return array
+     */
     public function getGenre()
     {
         return $this -> genre;
     }
 
+    /**
+     * Get the directors
+     * @return array
+     */
     public function getDirectors()
     {
         return $this -> directors;
     }
 
+    /**
+     * Get the writers
+     * @return array
+     */
     public function getWriters()
     {
         return $this -> writers;
     }
 
+    /**
+     * Get the actors
+     * @return array
+     */
     public function getActors()
     {
         return $this -> actors;
     }
 
+    /**
+     * Get the plot
+     * @return string
+     */
     public function getPlot()
     {
         return $this -> plot;
     }
 
+    /**
+     * Get the language
+     * @return string
+     */
     public function getLanguage()
     {
         return $this -> language;
     }
 
+    /**
+     * Get the country
+     * @return string
+     */
     public function getCountry()
     {
         return $this -> country;
     }
 
+    /**
+     * Get the awards
+     * @return string
+     */
     public function getAwards()
     {
         return $this -> awards;
     }
 
+    /**
+     * Get the poster
+     * @return string
+     */
     public function getPoster()
     {
         return $this -> poster;
     }
 
+    /**
+     * Get the ratings
+     * @return array
+     */
     public function getRatings()
     {
         return $this -> ratings;
     }
 
+    /**
+     * Get the metascore
+     * @return double
+     */
     public function getMetascore()
     {
         return $this -> metascore;
     }
 
+    /**
+     * Get the IMDB id
+     * @return string
+     */
     public function getImdbId()
     {
         return $this -> imdbId;
     }
 
+    /**
+     * Get the IMDB rating
+     * @return double
+     */
     public function getImdbRating()
     {
         return $this -> imdbRating;
     }
 
+    /**
+     * Get the IMDB votes
+     * @return double
+     */
     public function getImdbVotes()
     {
         return $this -> imdbVotes;
     }
 
+    /**
+     * Get the title type
+     * @return string
+     */
     public function getType()
     {
         return $this -> type;
     }
 
+    /**
+     * Set the title
+     * @param string $title
+     * @return $this
+     */
     public function setTitle($title)
     {
         $this -> title = $title;
         return $this;
     }
 
+    /**
+     * Set the year
+     * @param integer $year
+     * @return $this
+     */
     public function setYear($year)
     {
         $this -> year = $year;
         return $this;
     }
 
+    /**
+     * Set the rated value
+     * @param string $rated
+     * @return $this
+     */
     public function setRated($rated)
     {
         $this -> rated = $rated;
         return $this;
     }
 
+    /**
+     * Set the release date
+     * @param string $rleased
+     * @return $this
+     */
     public function setReleased($released)
     {
         // convert to standard format
@@ -373,6 +486,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the runtime
+     * @param string $runtime
+     * @return $this
+     */
     public function setRuntime($runtime)
     {
         // remove the minutes string from value
@@ -382,6 +500,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the genre
+     * @param string $genre
+     * @return $this
+     */
     public function setGenre($genre)
     {
         // split into seperate genres
@@ -396,6 +519,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the directors
+     * @param string $directors
+     * @return $this
+     */
     public function setDirectors($directors)
     {
         // split into seperate directors
@@ -410,6 +538,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the writers
+     * @param string $writers
+     * @return $this
+     */
     public function setWriters($writers)
     {
         // split into seperate writers
@@ -423,6 +556,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the actors
+     * @param string $actors
+     * @return $this
+     */
     public function setActors($actors)
     {
         // split into seperate actors
@@ -436,36 +574,66 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the plot
+     * @param string $plot
+     * @return $this
+     */
     public function setPlot($plot)
     {
         $this -> plot = (string) $plot;
         return $this;
     }
 
+    /**
+     * Set the language
+     * @param string $language
+     * @return $this
+     */
     public function setLanguage($language)
     {
         $this -> language = (string) $language;
         return $this;
     }
 
+    /**
+     * Set the country
+     * @param string $country
+     * @return $this
+     */
     public function setCountry($country)
     {
         $this -> country = (string) $country;
         return $this;
     }
 
+    /**
+     * Set the awards
+     * @param string $awards
+     * @return $this
+     */
     public function setAwards($awards)
     {
         $this -> awards = (string) $awards;
         return $this;
     }
 
+    /**
+     * Set the poster
+     * @param string $poster
+     * @return $this
+     */
     public function setPoster($poster)
     {
         $this -> poster = (string) $poster;
         return $this;
     }
 
+    /**
+     * Set the ratings
+     * @param array $ratings
+     * @return $this
+     */
     public function setRatings($ratings)
     {
         // convert each rating to an actual object
@@ -476,6 +644,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the metascore
+     * @param string $metascore
+     * @return $this
+     */
     public function setMetascore($metascore)
     {
         $metascore = floatval(str_replace(",", "", $metascore));
@@ -483,12 +656,22 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the IMDB id
+     * @param string $imdbId
+     * @return $this
+     */
     public function setImdbId($imdbId)
     {
         $this -> imdbId = (string) $imdbId;
         return $this;
     }
 
+    /**
+     * Set the IMDB rating
+     * @param string $imdbRating
+     * @return $this
+     */
     public function setImdbRating($imdbRating)
     {
         $imdbRating = floatval(str_replace(",", "", $imdbRating));
@@ -496,6 +679,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the IMDB votes
+     * @param string $imdbVotes
+     * @return $this
+     */
     public function setImdbVotes($imdbVotes)
     {
         $imdbVotes = floatval(str_replace(",", "", $imdbVotes));
@@ -503,6 +691,11 @@ class Title
         return $this;
     }
 
+    /**
+     * Set the title type
+     * @param string $type
+     * @return $this
+     */
     public function setType($type)
     {
         $this -> type = (string) $type;
