@@ -182,7 +182,65 @@ class Title
     }
 
     // search
+    public function search($query, $year = null, $type = null, $page = 1)
+    {
 
+        $arguments = array();
+
+        // validate the year parameter
+        if (isset($year)) {
+            // check if valid year
+            $year = (int) $year;
+            if ($year < 1000 || $year > 2300) {
+                throw new \Exception("Year '$year' is not a valid year.");
+            } else {
+                // add it to the list of arguments
+                $arguments['y'] = $year;
+            }
+        }
+
+        // validate the type parameter
+        if (isset($type)) {
+            // check if allowed type
+
+            if (!in_array($type, ['movie', 'series', 'episode'])) {
+                throw new \Exception("Type '$type' is not an allowed value. ['movie', 'series', 'episode'].");
+            } else {
+                // add it to the list of arguments
+                $arguments['type'] = $type;
+            }
+        }
+
+        if ($page < 0 || $page > 100) {
+            throw new \Exception("Page '$page' is outside the allowed limits (1-100).");
+        } else {
+            // add it to the list of arguments
+            $arguments['page'] = $page;
+        }
+
+        try {
+            $response = API::GET('s', urlencode($query), $arguments);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        if ($response -> Response === 'False') {
+            return (object) ['response' => false, 'reason' => $response -> Error];
+        }
+
+        // check for results amount
+        $totalResult = $response -> totalResults;
+        $pageResults = count($response -> Search);
+
+        $hasMoreResults = ($pageResults < $totalResult);
+
+        $data = array();
+        foreach ($response -> Search as $key => $result) {
+            $data[] = new $this($result);
+        }
+
+        return (object) ['response' => true, 'type' => 'search', 'pagination' => ['current' => $pageResults, 'total' => $totalResult, 'hasMoreResults' => $hasMoreResults], 'data' => $data];
+    }
 
     public function getTitle()
     {
