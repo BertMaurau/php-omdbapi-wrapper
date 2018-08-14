@@ -1,25 +1,33 @@
 # OMDB API Wrapper (WIP)
-A PHP Wrapper for the OMDB API.
+A basic PHP Wrapper for the OMDB API with a full processed response.
 
-Not yet available via Composer, but you can manually add the loader to your script.
+ - Vartypes for the values
+ - Splitted genres, actors, writers, ratings,.. 
+ - Search handler with pagination
+ - ..
+
+This project is not yet available via Composer, but you can manually download this repo and add the loader to your script.
 
 ```php
-require_once __DIR__ . "/../php-omdbapi-wrapper/src/loader.php";
+require_once __DIR__ . "/../<path-to-repo>/php-omdbapi-wrapper/src/loader.php";
 ```
 
 ### Functions
 
 There are currently only 4 functions available
 
+General
  - Get by IMDB ID
  - Get by Title
- - Get full season (serie)
- - Get episode for given season (serie)
-
+ - Get by Search
+Series specific
+ - Get full season
+ - Get episode for given season
 
 ## Usage
 
-Init a new static API object
+Init a new static API object first with your personal API key.
+An API key can be requested via: http://www.omdbapi.com/apikey.aspx
 
 ```php
 use BertMaurau\OMDB\Core\API as API;
@@ -29,7 +37,7 @@ $api = new API("api-key-here");
 
 ### Example
 
-Get a title by IMDB ID
+Get a title by its IMDB ID.
 
 ```php
 use BertMaurau\OMDB\Models\Title as Title;
@@ -37,7 +45,7 @@ use BertMaurau\OMDB\Models\Title as Title;
 $title = (new Title) -> getByImdbId("tt2085059");
 ```
 
-Get a title by title, year and type
+Get a title by its title, year and type (as extra arguments).
 
 ```php
 use BertMaurau\OMDB\Models\Title as Title;
@@ -45,8 +53,16 @@ use BertMaurau\OMDB\Models\Title as Title;
 $title = (new Title) -> getByTitle("Total Recall", 1990, "movie");
 ```
 
-Get a specific episode for give serie
-(Full example)
+Search for a title by its title, year and type (as extra arguments).
+
+```php
+use BertMaurau\OMDB\Models\Title as Title;
+
+$title = (new Title) -> search("Total", null, "movie");
+```
+
+Get a specific episode for a given series.
+(Example for getting episode information after fetching the series first)
 
 ```php
 use BertMaurau\OMDB\Models\Title as Title;
@@ -66,25 +82,26 @@ if ($title -> response) {
 }
 ```
 
-(other usage to get an episode)
+Get a specific episode for a given series.
+(Example for getting episode information without fetching the series first)
 
 ```php
 use BertMaurau\OMDB\Models\Serie as Serie;
 
-$serie = (new Serie) -> setImdbId("tt0944947") -> getEpisodeForSeason(3, 4);
+$serie = (new Serie) -> setImdbId("tt0944947") -> getEpisodeForSeason($episode = 3, $season = 4);
 ```
 
-Get a full season
+Get a full season (same principle as the episode information with two ways for fetching the info)
 ```php
 use BertMaurau\OMDB\Models\Serie as Serie;
 
-$season = (new Serie) -> getFullSeason(2);
+$season = (new Serie) -> setImdbId("tt0944947") -> getFullSeason($season = 2);
 ```
 
 
 ### Example movie response
 
-Below an example response for the requested movie Total Recall
+Below is an example response for the requested movie Total Recall
 
 ```php
 stdClass Object
@@ -234,3 +251,49 @@ stdClass Object
 
 )
 ```
+
+### Example search result
+
+Below is an example response for the search request of the query param movie "Total"
+
+```php
+stdClass Object
+(
+    [response] => 1
+    [type] => search
+    [pagination] => Array
+        (
+            [current] => 10
+            [total] => 421
+            [hasMoreResults] => 1
+        )
+
+    [data] => Array
+        (
+            [0] => BertMaurau\OMDB\Models\Title Object
+                (
+                    [title:BertMaurau\OMDB\Models\Title:private] => Total Recall
+                    [year:BertMaurau\OMDB\Models\Title:private] => 1990
+                    [rated:BertMaurau\OMDB\Models\Title:private] => 
+                    [released:BertMaurau\OMDB\Models\Title:private] => 
+                    [runtime:BertMaurau\OMDB\Models\Title:private] => 
+                    [genre:BertMaurau\OMDB\Models\Title:private] => 
+                    [directors:BertMaurau\OMDB\Models\Title:private] => 
+                    [writers:BertMaurau\OMDB\Models\Title:private] => 
+                    [actors:BertMaurau\OMDB\Models\Title:private] => 
+                    [plot:BertMaurau\OMDB\Models\Title:private] => 
+                    [language:BertMaurau\OMDB\Models\Title:private] => 
+                    [country:BertMaurau\OMDB\Models\Title:private] => 
+                    [awards:BertMaurau\OMDB\Models\Title:private] => 
+                    [poster:BertMaurau\OMDB\Models\Title:private] => https://m.media-amazon.com/images/M/MV5BYzU1YmJjMGEtMjY4Yy00MTFlLWE3NTUtNzI3YjkwZTMxZjZmXkEyXkFqcGdeQXVyNDc2NjEyMw@@._V1_SX300.jpg
+                    [ratings:BertMaurau\OMDB\Models\Title:private] => 
+                    [metascore:BertMaurau\OMDB\Models\Title:private] => 
+                    [imdbId:BertMaurau\OMDB\Models\Title:private] => tt0100802
+                    [imdbRating:BertMaurau\OMDB\Models\Title:private] => 
+                    [imdbVotes:BertMaurau\OMDB\Models\Title:private] => 
+                    [type:BertMaurau\OMDB\Models\Title:private] => movie
+                )
+
+            ...
+
+)
