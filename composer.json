@@ -1,0 +1,10 @@
+{
+    "name": "bertmaurau/php-omdbapi-wrapper",
+    "authors": [
+        {
+            "name": "Bert Maurau",
+            "email": "hello@bertmaurau.be"
+        }
+    ],
+    "require": {}
+}
