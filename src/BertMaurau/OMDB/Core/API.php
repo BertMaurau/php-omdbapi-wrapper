@@ -4,6 +4,7 @@ namespace BertMaurau\OMDB\Core;
 
 /**
  * Description of API
+ * Handles the main HTTP GET request to the OMDB API.
  *
  * @author Bert Maurau
  */
@@ -16,8 +17,16 @@ class API
     // your personal API key
     private static $apiKey;
 
+    /**
+     * Set the API key on construct
+     * @param type $apiKey
+     * @throws \Exception
+     */
     public function __construct($apiKey)
     {
+        if (empty($apiKey)) {
+            throw new \Exception("OMDB API key is required!");
+        }
         self::setApiKey($apiKey);
     }
 

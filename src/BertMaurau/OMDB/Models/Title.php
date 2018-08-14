@@ -6,6 +6,7 @@ use BertMaurau\OMDB\Core\API as API;
 
 /**
  * Description of Title
+ * Allows for getting Titles by IMDB ID, Title and Search requests.
  *
  * @author Bert Maurau
  */
