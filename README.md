@@ -1,4 +1,4 @@
-# OMDB API Wrapper (WIP)
+# OMDB API Wrapper
 A basic PHP Wrapper for the OMDB API with a full processed response.
 
  - Vartypes for the values
@@ -10,6 +10,36 @@ This project is not yet available via Composer, but you can manually download th
 
 ```php
 require_once __DIR__ . "/../<path-to-repo>/php-omdbapi-wrapper/src/loader.php";
+```
+
+### Responses
+
+Success
+
+```php
+stdClass Object
+(
+    [response] => 1
+    [type] => search|movie|series|episode
+    (if search) [pagination] => Array
+        (
+            [current] => 10
+            [total] => 421
+            [hasMoreResults] => 1
+        )
+
+    [data] => Array()
+)
+```
+
+Error
+
+```php
+stdClass Object
+(
+    [response] => false
+    [reason] => Incorrect IMDb ID.
+)
 ```
 
 ### Functions
