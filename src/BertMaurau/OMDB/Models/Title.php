@@ -42,27 +42,137 @@ class Title
     private $poster;
     // array<Rating>
     private $ratings;
-    // integer
+    // double
     private $metascore;
     // string
     private $imdbId;
-    // integer
-    private $imdbRaing;
-    // integer
+    // double
+    private $imdbRating;
+    // double
     private $imdbVotes;
     // string
     private $type;
 
-    // getByImdbId
-    public function getByImdbId($imdbId)
+    public function __construct($properties = array())
     {
-        // check if valid imdb id
-        if (!substr($imdb, 0, 2) === 'tt') {
-            throw new \Exception("'$imdbId' is not a valid IMDB ID.");
+        if (isset($properties)) {
+            // loop properties and attempt to call the setter
+            foreach ($properties as $key => $value) {
+                $setter = 'set' . ucfirst($key);
+                // check if the setter exists and is callable
+                if (is_callable(array($this, $setter))) {
+                    // execute the setter
+                    call_user_func(array($this, $setter), $value);
+                } else if (is_callable(array($this, $setter . 's'))) {
+                    // execute the setter
+                    call_user_func(array($this, $setter . 's'), $value);
+                } else {
+                    // not a property, add to the attributes list
+                    $this -> addAttribute($key, $value);
+                }
+            }
+            return $this;
         }
     }
 
-    // getByTitle
+    /**
+     * Add item as attribute (if it doesn't exist as property)
+     * @param string $property
+     * @param any $value
+     * @return $this
+     */
+    public function addAttribute($property, $value)
+    {
+        $this -> attributes[$property] = $value;
+        return $this;
+    }
+
+    /**
+     * Get title by its IMDB ID
+     * @param string $imdbId
+     * @return response
+     * @throws \Exception
+     */
+    public function getByImdbId($imdbId)
+    {
+        // check if valid imdb id
+        if (!substr($imdbId, 0, 2) === 'tt') {
+            throw new \Exception("'$imdbId' is not a valid IMDB ID.");
+        }
+
+        try {
+            $response = API::GET('i', $imdbId);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        // check for type
+        if ($response -> Type === 'movie') {
+            $data = new Movie($response);
+        } else if ($response -> Type === 'series') {
+            $data = new Serie($response);
+        } else {
+            // return a new title object from the response
+            $data = new $this($response);
+        }
+
+        return (object) ['response' => true, 'type' => $response -> Type, 'data' => $data];
+    }
+
+    /**
+     * Get title by its title
+     * @param string $imdbId
+     * @return response
+     * @throws \Exception
+     */
+    public function getByTitle($title, $year = null, $type = null)
+    {
+
+        $arguments = array();
+
+        // validate the year parameter
+        if (isset($year)) {
+            // check if valid year
+            $year = (int) $year;
+            if ($year < 1000 || $year > 2300) {
+                throw new \Exception("Year '$year' is not a valid year.");
+            } else {
+                // add it to the list of arguments
+                $arguments['y'] = $year;
+            }
+        }
+
+        // validate the type parameter
+        if (isset($type)) {
+            // check if allowed type
+
+            if (!in_array($type, ['movie', 'series', 'episode'])) {
+                throw new \Exception("Type '$type' is not an allowed value. ['movie', 'series', 'episode'].");
+            } else {
+                // add it to the list of arguments
+                $arguments['type'] = $type;
+            }
+        }
+
+        try {
+            $response = API::GET('t', $title, $arguments);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
+
+        // check for type
+        if ($response -> Type === 'movie') {
+            $data = new Movie($response);
+        } else if ($response -> Type === 'series') {
+            $data = new Serie($response);
+        } else {
+            // return a new title object from the response
+            $data = new $this($response);
+        }
+
+        return (object) ['response' => true, 'type' => $response -> Type, 'data' => $data];
+    }
+
     // search
 
 
@@ -151,9 +261,9 @@ class Title
         return $this -> imdbId;
     }
 
-    public function getImdbRaing()
+    public function getImdbRating()
     {
-        return $this -> imdbRaing;
+        return $this -> imdbRating;
     }
 
     public function getImdbVotes()
@@ -280,7 +390,7 @@ class Title
 
     public function setAwards($awards)
     {
-        $this -> awards = (array) $awards;
+        $this -> awards = (string) $awards;
         return $this;
     }
 
@@ -294,7 +404,7 @@ class Title
     {
         // convert each rating to an actual object
         foreach ($ratings as $key => $rating) {
-            $ratings[$key] = new Rating($rating -> source, $rating -> value);
+            $ratings[$key] = new Rating($rating -> Source, $rating -> Value);
         }
         $this -> ratings = (array) $ratings;
         return $this;
@@ -302,7 +412,8 @@ class Title
 
     public function setMetascore($metascore)
     {
-        $this -> metascore = (integer) $metascore;
+        $metascore = floatval(str_replace(",", "", $metascore));
+        $this -> metascore = (double) $metascore;
         return $this;
     }
 
@@ -312,15 +423,17 @@ class Title
         return $this;
     }
 
-    public function setImdbRaing($imdbRaing)
+    public function setImdbRating($imdbRating)
     {
-        $this -> imdbRaing = (integer) $imdbRaing;
+        $imdbRating = floatval(str_replace(",", "", $imdbRating));
+        $this -> imdbRating = (double) $imdbRating;
         return $this;
     }
 
     public function setImdbVotes($imdbVotes)
     {
-        $this -> imdbVotes = (integer) $imdbVotes;
+        $imdbVotes = floatval(str_replace(",", "", $imdbVotes));
+        $this -> imdbVotes = (double) $imdbVotes;
         return $this;
     }
 

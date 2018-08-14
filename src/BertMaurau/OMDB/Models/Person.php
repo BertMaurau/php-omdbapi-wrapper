@@ -13,6 +13,11 @@ class Person
     // string
     private $name;
 
+    public function __construct($name)
+    {
+        $this -> setName($name);
+    }
+
     /**
      * Get the person's name
      * @return string

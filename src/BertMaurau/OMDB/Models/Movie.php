@@ -12,7 +12,7 @@ class Movie extends Title
 
     // date
     private $dvd;
-    // integer
+    // double
     private $boxOffice;
     // string
     private $production;
@@ -55,9 +55,9 @@ class Movie extends Title
     public function setBoxOffice($boxOffice)
     {
         // remove the dollar part
-        $boxOffice = str_replace('$', '', $boxOffice);
+        $boxOffice = floatval(str_replace('$', '', str_replace(",", "", $boxOffice)));
 
-        $this -> boxOffice = (integer) $boxOffice;
+        $this -> boxOffice = (double) $boxOffice;
         return $this;
     }
 

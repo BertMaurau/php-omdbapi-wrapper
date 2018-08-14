@@ -7,7 +7,7 @@ namespace BertMaurau\OMDB\Models;
  *
  * @author Bert Maurau
  */
-class Rating extends BaseModel
+class Rating
 {
 
     // string
