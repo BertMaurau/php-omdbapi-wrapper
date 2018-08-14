@@ -106,6 +106,10 @@ class Title
             throw $ex;
         }
 
+        if ($response -> Response === 'False') {
+            return (object) ['response' => false, 'reason' => $response -> Error];
+        }
+
         // check for type
         if ($response -> Type === 'movie') {
             $data = new Movie($response);
@@ -158,6 +162,10 @@ class Title
             $response = API::GET('t', urlencode($title), $arguments);
         } catch (\Exception $ex) {
             throw $ex;
+        }
+
+        if ($response -> Response === 'False') {
+            return (object) ['response' => false, 'reason' => $response -> Error];
         }
 
         // check for type

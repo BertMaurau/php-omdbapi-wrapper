@@ -30,6 +30,10 @@ class Serie extends Title
             throw $ex;
         }
 
+        if ($response -> Response === 'False') {
+            return (object) ['response' => false, 'reason' => $response -> Error];
+        }
+
         $data = new SerieSeason($response);
 
         return (object) ['response' => true, 'type' => 'season', 'data' => $data];
@@ -42,6 +46,11 @@ class Serie extends Title
         } catch (\Exception $ex) {
             throw $ex;
         }
+
+        if ($response -> Response === 'False') {
+            return (object) ['response' => false, 'reason' => $response -> Error];
+        }
+
 
         $data = new SerieSeasonEpisode($response);
 

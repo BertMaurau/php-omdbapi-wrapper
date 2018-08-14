@@ -70,12 +70,6 @@ class API
         // check for response itself
         if (!property_exists($response, 'Response')) {
             throw new \Exception("Invalid response");
-        } else {
-            // check what the value was
-            $responseStatus = $response -> Response;
-            if ($responseStatus === "False") {
-                throw new \Exception("Error: " . $response -> Error);
-            }
         }
 
         return $response;
