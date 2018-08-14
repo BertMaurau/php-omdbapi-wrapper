@@ -155,7 +155,7 @@ class Title
         }
 
         try {
-            $response = API::GET('t', $title, $arguments);
+            $response = API::GET('t', urlencode($title), $arguments);
         } catch (\Exception $ex) {
             throw $ex;
         }
