@@ -4,7 +4,7 @@ use BertMaurau\OMDB\Models\Title AS Title;
 
 require_once __DIR__ . "/../src/loader.php";
 
-$api = new BertMaurau\OMDB\Core\API("3077118c");
+$api = new BertMaurau\OMDB\Core\API("");
 
 
 $search = (new Title) -> search("Total");

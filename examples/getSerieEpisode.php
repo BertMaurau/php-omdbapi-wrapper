@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../src/loader.php";
 
-$api = new BertMaurau\OMDB\Core\API("3077118c");
+$api = new BertMaurau\OMDB\Core\API("");
 
 
 $title = (new BertMaurau\OMDB\Models\Serie) -> getByImdbId("tt0944947");
